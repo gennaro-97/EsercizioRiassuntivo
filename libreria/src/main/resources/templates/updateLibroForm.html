@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Libro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .btn-secondary {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Modifica Libro</h1>
+
+    <!-- Messaggi di errore -->
+    <div th:if="${errore}" class="alert alert-danger">
+        <p th:text="${errore}"></p>
+    </div>
+
+    <form th:action="@{/admin/updateLibro/{id}(id=${libro.id})}" method="post">
+        <div class="form-group">
+            <label for="titolo">Titolo</label>
+            <input type="text" class="form-control" id="titolo" name="titolo" th:value="${libro.titolo}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="annoPubblicazione">Anno di Pubblicazione</label>
+            <input type="number" class="form-control" id="annoPubblicazione" name="annoPubblicazione" th:value="${libro.annoPubblicazione}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="autoreId">Autore</label>
+            <select class="form-control" id="autoreId" name="autoreId" required>
+                <option th:each="autore : ${autori}" 
+                        th:value="${autore.id}" 
+                        th:text="${autore.nome} + ' ' + ${autore.cognome}"
+                        th:selected="${libro.autore.id == autore.id}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+        <a href="/admin/libri" class="btn btn-secondary mt-2">Annulla</a>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

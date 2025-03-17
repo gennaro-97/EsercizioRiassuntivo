@@ -16,6 +16,7 @@ import com.example.libreria.service.AutoreService; // Aggiungi questo import per
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -79,6 +80,27 @@ public class AdminLibroController {
     public String deleteLibro(@PathVariable Long id) {
         libroService.deleteLibro(id); // Usa il servizio Libro per eliminare il libro
         return "redirect:/admin/libri"; // Ritorna alla pagina dei libri dopo aver eliminato il libro
+    }
+
+    // Mostra il form di modifica
+    @GetMapping("/updateLibroForm/{id}")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        Libro libro = libroService.getLibroById(id)
+                .orElseThrow(() -> new RuntimeException("Libro non trovato con ID: " + id));
+
+        model.addAttribute("libro", libro);
+        model.addAttribute("autori", autoreService.getAllAutori()); // Per selezionare un autore dal menu a tendina
+        return "updateLibroForm";
+    }
+
+    // Gestisce il salvataggio della modifica
+    @PostMapping("/updateLibro/{id}")
+    public String updateLibro(@PathVariable Long id, 
+                              @RequestParam String titolo, 
+                              @RequestParam int annoPubblicazione, 
+                              @RequestParam Long autoreId) {
+        libroService.updateLibro(id, titolo, annoPubblicazione, autoreId);
+        return "redirect:/admin/libri"; // Dopo la modifica, torna alla lista dei libri
     }
 }
 

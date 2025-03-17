@@ -34,9 +34,6 @@
         .table-bordered {
             border-color: #dee2e6;
         }
-        .table-bordered td, .table-bordered th {
-            border: 1px solid #dee2e6;
-        }
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
         }
@@ -45,9 +42,6 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        .card-body {
-            padding: 20px;
-        }
         .no-books-message {
             text-align: center;
             font-size: 1.25rem;
@@ -55,10 +49,6 @@
             padding: 20px;
             background-color: #f1f3f5;
             border-radius: 8px;
-        }
-        .add-book-btn, .add-author-btn {
-            text-align: center;
-            margin-top: 20px;
         }
         .btn-custom {
             background-color: #007bff;
@@ -70,18 +60,30 @@
         }
         .btn-custom:hover {
             background-color: #0056b3;
-            color: white;
         }
         .btn-danger-custom {
             background-color: #e74a3b;
             color: white;
             border-radius: 5px;
-            padding: 8px 15px;
+            padding: 8px 12px;
             font-weight: bold;
         }
         .btn-danger-custom:hover {
             background-color: #c0392b;
-            color: white;
+        }
+        .btn-warning-custom {
+            background-color: #f1c40f;
+            color: black;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-weight: bold;
+        }
+        .btn-warning-custom:hover {
+            background-color: #d4ac0d;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
         }
     </style>
 </head>
@@ -91,12 +93,12 @@
     <h1>Lista dei Libri e Autori</h1>
 
     <div class="row">
-        <!-- Sezione Libri (colonna di sinistra) -->
+        <!-- Sezione Libri -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Libri</h2>
-                    <div class="add-book-btn">
+                    <div class="text-center mb-3">
                         <a href="/admin/createLibroForm" class="btn btn-custom">Aggiungi Libro</a>
                     </div>
 
@@ -105,12 +107,12 @@
                     </div>
                     
                     <div th:unless="${libri.isEmpty()}">
-                        <table class="table table-bordered table-striped mt-4">
+                        <table class="table table-bordered table-striped mt-3">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Titolo</th>
-                                    <th>Anno di Pubblicazione</th>
+                                    <th>Anno</th>
                                     <th>Autore</th>
                                     <th>Azioni</th>
                                 </tr>
@@ -121,8 +123,8 @@
                                     <td th:text="${libro.titolo}"></td>
                                     <td th:text="${libro.annoPubblicazione}"></td>
                                     <td th:text="${libro.autore.nome} + ' ' + ${libro.autore.cognome}"></td>
-                                    <td>
-                                        <!-- Pulsante Elimina -->
+                                    <td class="action-buttons">
+                                        <a th:href="@{/admin/updateLibroForm/{id}(id=${libro.id})}" class="btn btn-warning-custom">Modifica</a>
                                         <form th:action="@{/admin/deleteLibro/{id}(id=${libro.id})}" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo libro?');">
                                             <input type="hidden" name="_method" value="DELETE"/>
                                             <button type="submit" class="btn btn-danger-custom">Elimina</button>
@@ -136,12 +138,12 @@
             </div>
         </div>
 
-        <!-- Sezione Autori (colonna di destra) -->
+        <!-- Sezione Autori -->
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Autori</h2>
-                    <div class="add-author-btn">
+                    <div class="text-center mb-3">
                         <a href="/admin/createAutoreForm" class="btn btn-custom">Aggiungi Autore</a>
                     </div>
 
@@ -164,8 +166,8 @@
                                     <td th:text="${autore.id}"></td>
                                     <td th:text="${autore.nome}"></td>
                                     <td th:text="${autore.cognome}"></td>
-                                    <td>
-                                        <!-- Pulsante Elimina -->
+                                    <td class="action-buttons">
+                                        <a th:href="@{/admin/updateAutoreForm/{id}(id=${autore.id})}" class="btn btn-warning-custom">Modifica</a>
                                         <form th:action="@{/admin/deleteAutore/{id}(id=${autore.id})}" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo autore?');">
                                             <input type="hidden" name="_method" value="DELETE"/>
                                             <button type="submit" class="btn btn-danger-custom">Elimina</button>
