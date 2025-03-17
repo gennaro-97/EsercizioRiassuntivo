@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Autore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e8f0fe;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 80px;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        .form-group label {
+            font-size: 1.1rem;
+            color: #495057;
+        }
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn-container a {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Modifica Autore</h1>
+    
+        <!-- Modifica l'action per includere l'ID dell'autore -->
+        <form th:action="@{/admin/updateAutore/{id}(id=${autore.id})}" method="post">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" th:value="${autore.nome}" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="cognome">Cognome</label>
+                <input type="text" class="form-control" id="cognome" name="cognome" th:value="${autore.cognome}" required>
+            </div>
+    
+            <div class="btn-container">
+                <button type="submit" class="btn btn-custom">Salva Modifiche</button>
+                <a href="/admin/autori" class="btn btn-secondary">Annulla</a>
+            </div>
+        </form>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.libreria.models.Autore;
 import com.example.libreria.models.Libro;
 import com.example.libreria.service.LibroService;
-import com.example.libreria.service.AutoreService; // Aggiungi questo import per il servizio Autore
+import com.example.libreria.service.AutoreService; 
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 

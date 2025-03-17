@@ -47,10 +47,30 @@ public class AdminAutoreController {
     }
 
     // Metodo per eliminare un autore
-@PostMapping("/deleteAutore/{id}")
-public String deleteAutore(@PathVariable Long id) {
-    autoreService.deleteAutore(id); // Usa il servizio Autore per eliminare l'autore
-    return "redirect:/admin/libri"; // Ritorna alla pagina dei libri dopo aver eliminato l'autore
+    @PostMapping("/deleteAutore/{id}")
+    public String deleteAutore(@PathVariable Long id) {
+        autoreService.deleteAutore(id); // Usa il servizio Autore per eliminare l'autore
+        return "redirect:/admin/libri"; // Ritorna alla pagina dei libri dopo aver eliminato l'autore
+    }
+
+    // Mostra il form di modifica dell'autore
+@GetMapping("/updateAutoreForm/{id}")
+public String showUpdateAutoreForm(@PathVariable Long id, Model model) {
+    Autore autore = autoreService.findById(id)
+            .orElseThrow(() -> new RuntimeException("Autore non trovato con ID: " + id));
+
+    model.addAttribute("autore", autore);
+    return "updateAutoreForm"; // Nome del template HTML che contiene il form di modifica
 }
+
+// Gestisce il salvataggio della modifica dell'autore
+@PostMapping("/updateAutore/{id}")
+public String updateAutore(@PathVariable Long id, 
+                           @RequestParam String nome, 
+                           @RequestParam String cognome) {
+    autoreService.updateAutore(id, nome, cognome);
+    return "redirect:/admin/libri"; // Dopo la modifica, torna alla lista degli autori
+}
+
 
 }
