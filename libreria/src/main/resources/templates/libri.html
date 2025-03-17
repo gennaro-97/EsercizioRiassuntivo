@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Libri e Autori</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f7fc;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table thead {
+            background-color: #007bff;
+            color: white;
+        }
+        .table-bordered {
+            border-color: #dee2e6;
+        }
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .no-books-message {
+            text-align: center;
+            font-size: 1.25rem;
+            color: #6c757d;
+            padding: 20px;
+            background-color: #f1f3f5;
+            border-radius: 8px;
+        }
+        .add-book-btn, .add-author-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        .btn-danger-custom {
+            background-color: #e74a3b;
+            color: white;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-weight: bold;
+        }
+        .btn-danger-custom:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Lista dei Libri e Autori</h1>
+
+    <div class="row">
+        <!-- Sezione Libri (colonna di sinistra) -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Libri</h2>
+                    <div class="add-book-btn">
+                        <a href="/admin/createLibroForm" class="btn btn-custom">Aggiungi Libro</a>
+                    </div>
+
+                    <div th:if="${libri.isEmpty()}" class="no-books-message">
+                        <p>Non ci sono libri disponibili.</p>
+                    </div>
+                    
+                    <div th:unless="${libri.isEmpty()}">
+                        <table class="table table-bordered table-striped mt-4">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titolo</th>
+                                    <th>Anno di Pubblicazione</th>
+                                    <th>Autore</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="libro : ${libri}">
+                                    <td th:text="${libro.id}"></td>
+                                    <td th:text="${libro.titolo}"></td>
+                                    <td th:text="${libro.annoPubblicazione}"></td>
+                                    <td th:text="${libro.autore.nome} + ' ' + ${libro.autore.cognome}"></td>
+                                    <td>
+                                        <!-- Pulsante Elimina -->
+                                        <form th:action="@{/admin/deleteLibro/{id}(id=${libro.id})}" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo libro?');">
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                            <button type="submit" class="btn btn-danger-custom">Elimina</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione Autori (colonna di destra) -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Autori</h2>
+                    <div class="add-author-btn">
+                        <a href="/admin/createAutoreForm" class="btn btn-custom">Aggiungi Autore</a>
+                    </div>
+
+                    <div th:if="${autori.isEmpty()}" class="no-books-message">
+                        <p>Non ci sono autori disponibili.</p>
+                    </div>
+                    
+                    <div th:unless="${autori.isEmpty()}">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Cognome</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="autore : ${autori}">
+                                    <td th:text="${autore.id}"></td>
+                                    <td th:text="${autore.nome}"></td>
+                                    <td th:text="${autore.cognome}"></td>
+                                    <td>
+                                        <!-- Pulsante Elimina -->
+                                        <form th:action="@{/admin/deleteAutore/{id}(id=${autore.id})}" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo autore?');">
+                                            <input type="hidden" name="_method" value="DELETE"/>
+                                            <button type="submit" class="btn btn-danger-custom">Elimina</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+

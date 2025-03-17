@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creazione Libro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f1f3f5;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        .form-group label {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary-custom {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: none;
+        }
+        .btn-secondary-custom:hover {
+            background-color: #5a6268;
+        }
+        .alert-custom {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Creazione Libro</h1>
+
+    <!-- Messaggi di errore o successo -->
+    <div th:if="${errore != null}" class="alert alert-danger alert-custom">
+        <p th:text="${errore}"></p>
+    </div>
+    <div th:if="${successo != null}" class="alert alert-success alert-custom">
+        <p th:text="${successo}"></p>
+    </div>
+
+    <form action="/admin/createLibroForm" method="post">
+        <div class="form-group">
+            <label for="titolo">Titolo</label>
+            <input type="text" class="form-control" id="titolo" name="titolo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="annoPubblicazione">Anno di Pubblicazione</label>
+            <input type="number" class="form-control" id="annoPubblicazione" name="annoPubblicazione" required>
+        </div>
+
+        <div class="form-group">
+            <label for="autoreId">Autore</label>
+            <select class="form-control" id="autoreId" name="autoreId" required>
+                <!-- Lista degli autori -->
+                <option th:each="autore : ${autori}" 
+                        th:value="${autore.id}" 
+                        th:text="${autore.nome} + ' ' + ${autore.cognome}"></option>
+            </select>
+        </div>
+
+        <div class="form-footer">
+            <button type="submit" class="btn btn-custom">Aggiungi Libro</button>
+            <a href="/admin/libri" class="btn btn-secondary-custom">Annulla</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
